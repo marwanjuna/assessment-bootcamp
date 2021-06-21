@@ -1,9 +1,11 @@
 package handler
 
 import (
+	"net/http"
 	"password-manager/auth"
 	"password-manager/entity"
 	"password-manager/user"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -53,7 +55,7 @@ func (h *userHandler) LoginUserHandler(c *gin.Context) {
 	
 	if err != nil {
 		c.JSON(401, gin.H{
-			"error": "input data error",
+			"error": err.Error(),
 		})
 		return
 	}
@@ -62,7 +64,7 @@ func (h *userHandler) LoginUserHandler(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(500, gin.H{
-			"error": "internal server error",
+			"error": err.Error(),
 		})
 		return
 	}
@@ -71,4 +73,31 @@ func (h *userHandler) LoginUserHandler(c *gin.Context) {
 		"token": token,
 		"user_id": userData.ID,
 	})
+}
+
+func (h *userHandler) UpdateUserByIDHandler(c *gin.Context) {
+	id := c.Param("id")
+
+	var updateUserInput entity.UpdateUserInput
+
+	idParam, _ := strconv.Atoi(id)
+
+	userData := int(c.MustGet("currentUser").(int))
+
+	if idParam != userData {
+		c.JSON(401, gin.H{
+			"error": "unauthorize user",
+		})
+		return
+	}
+
+	user, err := h.userService.UpdateUserByID(id, updateUserInput)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
 }

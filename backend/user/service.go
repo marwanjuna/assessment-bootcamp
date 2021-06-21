@@ -4,14 +4,15 @@ import (
 	"errors"
 	"fmt"
 	"password-manager/entity"
-
-	"golang.org/x/crypto/bcrypt"
+	"password-manager/helper"
+	"time"
 )
 
 
 type UserService interface {
 	SaveNewUser(user entity.UserInput) (entity.User, error)
 	LoginUser(input entity.LoginUserInput) (entity.User, error)
+	UpdateUserByID(id string, dataInput entity.UpdateUserInput) (entity.User, error)
 }
 
 type userService struct {
@@ -46,14 +47,49 @@ func (s  *userService) LoginUser(input entity.LoginUserInput) (entity.User, erro
 		return user, err
 	}
 
-	if user.Email == "" {
-		newError := fmt.Sprintf("email %s not found", user.Email)
+	if user.ID == 0 {
+		newError := fmt.Sprintf("user id %d not found", user.ID)
 		return user, errors.New(newError)
 	}
 
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password)); err != nil {
+	if input.Password != user.Password {
 		return user, errors.New("invalid password")
 	}
 
 	return user, nil
+}
+
+func (s *userService) UpdateUserByID(id string, dataInput entity.UpdateUserInput) (entity.User, error) {
+	var dataUpdate = map[string]interface{}{}
+
+	if err := helper.ValidateIDNumber(id); err != nil {
+		return entity.User{}, err
+	}
+
+	user, err := s.repository.GetOneUser(id)
+
+	if err != nil {
+		return entity.User{}, err
+	}
+
+	if user.ID == 0 {
+		newError := fmt.Sprintf("user id %s is not found", id)
+		return entity.User{}, errors.New(newError)
+	}
+
+	if dataInput.FullName != "" || len(dataInput.FullName) != 0 {
+		dataUpdate["full_name"] = dataInput.FullName
+	}
+	if dataInput.Address != "" || len(dataInput.Address) != 0 {
+		dataUpdate["address"] = dataInput.Address
+	}
+	dataUpdate["updated_at"] = time.Now()
+
+	userUpdated, err := s.repository.UpdateUser(id, dataUpdate)
+
+	if err != nil {
+		return entity.User{}, err
+	}
+
+	return userUpdated, nil
 }

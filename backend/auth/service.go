@@ -7,7 +7,6 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-
 var (
 	key = os.Getenv("SECRET_KEY")
 )
@@ -18,7 +17,6 @@ type Service interface {
 }
 
 type jwtService struct {
-
 }
 
 func NewService() *jwtService {
@@ -26,6 +24,7 @@ func NewService() *jwtService {
 }
 
 func (s *jwtService) GenerateToken(userID int) (string, error) {
+
 	claim := jwt.MapClaims{
 		"user_id": userID,
 	}

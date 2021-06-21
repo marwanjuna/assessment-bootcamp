@@ -24,3 +24,8 @@ type LoginUserInput struct {
 	Email     string `json:"email"`
 	Password  string `json:"password"`
 }
+
+type UpdateUserInput struct {
+	FullName  string `json:"full_name"`
+	Address   string `json:"address"`
+}
