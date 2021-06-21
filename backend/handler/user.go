@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"password-manager/auth"
 	"password-manager/entity"
 	"password-manager/user"
 
@@ -10,10 +11,11 @@ import (
 
 type userHandler struct {
 	userService user.UserService
+	authService auth.Service
 }
 
-func NewUserHandler(userService user.UserService) *userHandler {
-	return &userHandler{userService}
+func NewUserHandler(userService user.UserService, authService auth.Service) *userHandler {
+	return &userHandler{userService, authService}
 }
 
 func (h *userHandler) CreateUserHandler(c *gin.Context) {
@@ -35,4 +37,38 @@ func (h *userHandler) CreateUserHandler(c *gin.Context) {
 	}
 
 	c.JSON(201, response)
+}
+
+func (h *userHandler) LoginUserHandler(c *gin.Context) {
+	var inputLoginUser entity.LoginUserInput
+
+	if err := c.ShouldBindJSON(&inputLoginUser); err != nil {
+		c.JSON(400, gin.H{
+			"error": "input data required",
+		})
+		return
+	}
+
+	userData, err := h.userService.LoginUser(inputLoginUser)
+	
+	if err != nil {
+		c.JSON(401, gin.H{
+			"error": "input data error",
+		})
+		return
+	}
+
+	token, err := h.authService.GenerateToken(int(userData.ID))
+
+	if err != nil {
+		c.JSON(401, gin.H{
+			"error": "input data error",
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"token": token,
+		"user_id": userData.ID,
+	})
 }

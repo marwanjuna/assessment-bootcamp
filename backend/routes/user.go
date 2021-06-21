@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"password-manager/auth"
 	"password-manager/config"
 	"password-manager/handler"
 	"password-manager/user"
@@ -14,9 +15,11 @@ var (
 	DB *gorm.DB = config.Connect()
 	userRepository = user.NewRepository(DB)
 	userService = user.UserNewService(userRepository)
-	userHandler = handler.NewUserHandler(userService)
+	authService = auth.NewService()
+	userHandler = handler.NewUserHandler(userService, authService)
 )
 
 func UserRoute(r *gin.Engine)  {
 	r.POST("/users/register", userHandler.CreateUserHandler)
+	r.POST("/users/login", userHandler.LoginUserHandler)
 }

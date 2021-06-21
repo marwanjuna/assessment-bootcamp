@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"os"
+	"password-manager/entity"
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
@@ -24,6 +25,9 @@ func Connect() *gorm.DB {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	db.AutoMigrate(&entity.User{})
+	db.AutoMigrate(&entity.PasswordList{})
 
 	return db
 }
