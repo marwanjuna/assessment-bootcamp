@@ -80,13 +80,9 @@ func (h *userHandler) UpdateUserByIDHandler(c *gin.Context) {
 
 	var updateUserInput entity.UpdateUserInput
 
-	idParam, _ := strconv.Atoi(id)
-
-	userData := int(c.MustGet("currentUser").(int))
-
-	if idParam != userData {
-		c.JSON(401, gin.H{
-			"error": "unauthorize user",
+	if err := c.ShouldBindJSON(&updateUserInput); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"errors": err.Error(),
 		})
 		return
 	}
@@ -98,6 +94,18 @@ func (h *userHandler) UpdateUserByIDHandler(c *gin.Context) {
 		})
 		return
 	}
+
+	idParam, _ := strconv.Atoi(id)
+
+	userData := int(c.MustGet("currentUser").(int))
+
+	if idParam != userData {
+		c.JSON(401, gin.H{
+			"error": "unauthorize user",
+		})
+		return
+	}
+
 
 	c.JSON(http.StatusOK, user)
 }

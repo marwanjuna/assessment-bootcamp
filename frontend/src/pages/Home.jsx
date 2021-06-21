@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Form, Button, Alert, Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import userLoginAction from "../redux/user/login/userLoginAction";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -18,8 +17,7 @@ const Home = () => {
     dispatch(allPasswordAction.fetchAllPassword(userID));
   }, []);
 
-  const handleDeletePass = (passID) => {
-  };
+  const handleDeletePass = (passID) => {};
 
   return (
     <>

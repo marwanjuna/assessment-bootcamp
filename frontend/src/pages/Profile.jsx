@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Form, Button, Alert, Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import userLoginAction from "../redux/user/login/userLoginAction";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import allPasswordAction from "../redux/password/allPasswordAction";
-import editNewPasswordAction from "../redux/password/editPasswordAction";
-import detailPasswordAction from "../redux/password/deletePasswordAction";
 import getUserAction from "../redux/user/get/getUserAction";
-import updateUserAction from "../redux/user/update/updateUserAction";
 
-const UpdateProfile = () => {
+const Profile = () => {
   const userData = useSelector((state) => state.userDetail);
   const dispatch = useDispatch();
   const history = useHistory();
   const [userID, setUserID] = useState(localStorage.getItem("userID"));
-  const [urlUpdate, setUrlUpdate] = useState("/edit/" + userID);
+  const [urlUpdate, setUrlUpdate] = useState("/profile/edit/" + userID);
 
   useEffect(() => {
     dispatch(getUserAction.fetchUser(userID));
@@ -60,4 +55,4 @@ const UpdateProfile = () => {
   );
 };
 
-export default UpdateProfile;
+export default Profile;

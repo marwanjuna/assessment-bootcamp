@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import userLoginAction from "../redux/user/login/userLoginAction";
 import { useHistory, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";

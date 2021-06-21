@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Form, Button, Alert, Table } from "react-bootstrap";
+import { Form, Button, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import userLoginAction from "../redux/user/login/userLoginAction";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import allPasswordAction from "../redux/password/allPasswordAction";
-import editNewPasswordAction from "../redux/password/editPasswordAction";
-import detailPasswordAction from "../redux/password/deletePasswordAction";
 import getUserAction from "../redux/user/get/getUserAction";
 import updateUserAction from "../redux/user/update/updateUserAction";
 
-const Profile = () => {
+const UpdateProfile = () => {
   const userData = useSelector((state) => state.userDetail);
   const userUpdate = useSelector((state) => state.updateUser);
   const dispatch = useDispatch();
@@ -22,7 +18,17 @@ const Profile = () => {
     dispatch(getUserAction.fetchUser(userID));
   }, []);
 
-  const handleUpdateUser = () => {};
+  const handleUpdateUser = (e) => {
+    e.preventDefault();
+    dispatch(
+      updateUserAction.update(
+        userUpdate.name,
+        userUpdate.address,
+        userID,
+        history
+      )
+    );
+  };
 
   return (
     <>
@@ -58,7 +64,7 @@ const Profile = () => {
               <Form.Group controlId="formBasicText" className="p-2 w-100">
                 <Form.Control
                   type="text"
-                  placeholder="Name"
+                  placeholder="Full Name"
                   required
                   value={userUpdate.name}
                   onChange={(e) =>
@@ -97,4 +103,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default UpdateProfile;

@@ -67,6 +67,10 @@ const update = (name, address, userID, history) => async dispatch => {
       method: "PUT",
       url: "/users/" + userID,
       data: submitData,
+      headers: {
+        Authorization: localStorage.getItem("accessToken"),
+      },
+
     });
 
     history.push("/profile/" + userID)
@@ -84,7 +88,7 @@ const updateUserAction = {
   resetForm,
   setName,
   setAddress,
-  update
+  update,
 };
 
 export default updateUserAction;
