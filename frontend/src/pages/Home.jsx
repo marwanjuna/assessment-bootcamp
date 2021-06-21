@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Form, Button, Alert, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import userLoginAction from "../redux/user/login/userLoginAction";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import allPasswordAction from "../redux/password/allPasswordAction";
+import editNewPasswordAction from "../redux/password/editPasswordAction";
+import detailPasswordAction from "../redux/password/deletePasswordAction";
 
 const Home = () => {
   const userPasswordList = useSelector((state) => state.allPassword);
@@ -16,6 +18,10 @@ const Home = () => {
   useEffect(() => {
     dispatch(allPasswordAction.fetchAllPassword(userID));
   }, []);
+
+  const handleDeletePass = (passID) => {
+    dispatch(detailPasswordAction.fetchPassword(passID));
+  };
 
   return (
     <>
@@ -29,7 +35,6 @@ const Home = () => {
                 Add New Password
               </Button>
             </div>
-            <pre>{JSON.stringify(userPasswordList)}</pre>
             <Table striped bordered hover>
               <thead>
                 <tr>
@@ -38,7 +43,9 @@ const Home = () => {
                   <th>Password</th>
                   <th>Created At</th>
                   <th>Updated At</th>
-                  <th>Action</th>
+                  <th colSpan="2" className="text-center">
+                    Action
+                  </th>
                 </tr>
               </thead>
               {userPasswordList.data &&
@@ -51,10 +58,12 @@ const Home = () => {
                       <td>{data.created_at}</td>
                       <td>{data.updated_at}</td>
                       <td>
-                        <Button variant="primary">Update</Button>
+                        <Link to={`/password/edit/${data.id}`}>
+                          <span>Update</span>
+                        </Link>
                       </td>
                       <td>
-                        <Button variant="danger">Delete</Button>
+                        <span onClick={handleDeletePass}>Delete</span>
                       </td>
                     </tr>
                   );

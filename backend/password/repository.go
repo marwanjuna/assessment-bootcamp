@@ -11,6 +11,7 @@ type PasswordRepository interface {
 	CreatePassword(password entity.PasswordList) (entity.PasswordList, error)
 	GetOnePassword(id string) (entity.PasswordList, error)
 	UpdatePassword(id string, dataUpdate map[string]interface{}) (entity.PasswordList, error)
+	DeletePassword(id string) (string, error)
 }
 
 type Repository struct {
@@ -52,4 +53,12 @@ func (r *Repository) UpdatePassword(id string, dataUpdate map[string]interface{}
 	}
 
 	return password, nil
+}
+
+func (r *Repository) DeletePassword(id string) (string, error) {
+	if err := r.db.Where("id = ?", id).Delete(&entity.PasswordList{}).Error; err != nil {
+		return "error", err
+	}
+
+	return "success", nil
 }
