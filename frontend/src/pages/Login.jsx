@@ -14,7 +14,7 @@ const Login = () => {
   useEffect(() => {
     dispatch(userLoginAction.resetForm());
     if (!!localStorage.getItem("accessToken")) {
-      history.push("/");
+      history.push("/dashboard");
     }
   }, []);
 

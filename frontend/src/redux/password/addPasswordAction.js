@@ -74,7 +74,7 @@ const addNewPassword = (website, password1, history) => async dispatch => {
 
     });
 
-    history.push("/")
+    history.push("/dashboard")
     dispatch(stopLoading());
 
   } catch (error) {

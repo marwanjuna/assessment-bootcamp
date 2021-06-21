@@ -7,6 +7,7 @@ import AddPassword from './pages/AddPassword';
 import EditPassword from './pages/EditPassword';
 import Profile from './pages/Profile';
 import UpdateProfile from './pages/ProfileUpdate';
+import Dashboard from './pages/Dashboard';
 
 function App() {
   const App = styled.div`
@@ -24,6 +25,7 @@ function App() {
           <Route path="/password/edit/:id" exact component={EditPassword} />
           <Route path="/profile/:id" exact component={Profile} />
           <Route path="/profile/edit/:id" exact component={UpdateProfile} />
+          <Route path="/dashboard" exact component={Dashboard} />
           <Route path="/" exact component={Home} />
         </Switch>
       </Router>

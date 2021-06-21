@@ -74,7 +74,7 @@ const login = (email, password, history) => async dispatch => {
     console.log(user)
 
     dispatch(stopLoading());
-    history.push("/")
+    history.push("/dashboard")
   } catch (error) {
     console.log(error);
     dispatch(setErrorMessage(["The email/password is incorrect"] || ["internal server error"]));

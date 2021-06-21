@@ -14,7 +14,7 @@ const Register = () => {
   useEffect(() => {
     dispatch(userRegisterAction.resetForm());
     if (!!localStorage.getItem("accessToken")) {
-      history.push("/");
+      history.push("/dashboard");
     }
   }, []);
 
