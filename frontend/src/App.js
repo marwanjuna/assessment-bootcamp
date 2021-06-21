@@ -22,6 +22,8 @@ function App() {
           <Route path="/password/add" exact component={AddPassword} />
           <Route path="/password/edit/:id" exact component={EditPassword} />
           <Route path="/profile/:id" exact component={Profile} />
+          <Route path="/profile/edit/:id" exact component={Profile} />
+
           <Route path="/" exact component={Home} />
         </Switch>
       </Router>

@@ -17,8 +17,6 @@ const fetchUser = (userID) => async (dispatch) => {
       }
     })
 
-    console.log(user.data)
-
   } catch (error) {
     console.log(error);
   }

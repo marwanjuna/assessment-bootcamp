@@ -11,16 +11,18 @@ import detailPasswordAction from "../redux/password/deletePasswordAction";
 import getUserAction from "../redux/user/get/getUserAction";
 import updateUserAction from "../redux/user/update/updateUserAction";
 
-const UpdateProfile = () => {
+const Profile = () => {
   const userData = useSelector((state) => state.userDetail);
+  const userUpdate = useSelector((state) => state.updateUser);
   const dispatch = useDispatch();
   const history = useHistory();
   const [userID, setUserID] = useState(localStorage.getItem("userID"));
-  const [urlUpdate, setUrlUpdate] = useState("/edit/" + userID);
 
   useEffect(() => {
     dispatch(getUserAction.fetchUser(userID));
   }, []);
+
+  const handleUpdateUser = () => {};
 
   return (
     <>
@@ -29,10 +31,7 @@ const UpdateProfile = () => {
         <div className="row justify-content-center mt-5">
           <div className="col-sm">
             <div className="d-flex justify-content-between mb-5">
-              <h2>Profile Page</h2>
-              <Button variant="primary" href={urlUpdate}>
-                Update Profile
-              </Button>
+              <h2>Update Profile Page</h2>
             </div>
             <Table striped bordered hover>
               <thead>
@@ -52,6 +51,44 @@ const UpdateProfile = () => {
                 </tbody>
               )}
             </Table>
+            <Form
+              onSubmit={handleUpdateUser}
+              className="d-flex flex-column justify-content-center align-items-center"
+            >
+              <Form.Group controlId="formBasicText" className="p-2 w-100">
+                <Form.Control
+                  type="text"
+                  placeholder="Name"
+                  required
+                  value={userUpdate.name}
+                  onChange={(e) =>
+                    dispatch(updateUserAction.setName(e.target.value))
+                  }
+                />
+                <Form.Text className="text-muted"></Form.Text>
+              </Form.Group>
+
+              <Form.Group controlId="formBasicText" className="p-2 w-100">
+                <Form.Control
+                  type="text"
+                  placeholder="Address"
+                  required
+                  value={userUpdate.address}
+                  onChange={(e) =>
+                    dispatch(updateUserAction.setAddress(e.target.value))
+                  }
+                />
+                <Form.Text className="text-muted"></Form.Text>
+              </Form.Group>
+
+              <Button
+                variant="primary"
+                type="submit"
+                disabled={userUpdate.isLoading ? true : false}
+              >
+                {userUpdate.isLoading ? "Loading..." : "Update"}
+              </Button>
+            </Form>
           </div>
         </div>
       </div>
@@ -60,4 +97,4 @@ const UpdateProfile = () => {
   );
 };
 
-export default UpdateProfile;
+export default Profile;

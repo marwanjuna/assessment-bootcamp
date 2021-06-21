@@ -1,12 +1,11 @@
 import { combineReducers } from "redux";
 import addPasswordReducer from "./password/addPasswordReducer";
 import allPaswordReducer from "./password/allPasswordReducer";
-import deletePasswordReducer from "./password/deletePasswordReducer.js";
-import detailPasswordReducer from "./password/deletePasswordReducer.js";
 import editPasswordReducer from "./password/editPasswordReducer";
 import getUserReducer from "./user/get/getUserReducer";
 import userLoginReducer from "./user/login/userLoginReducer";
 import userRegisterReducer from "./user/register/userRegisterReducer";
+import updateUserReducer from "./user/update/updateUserReducer";
 
 const rootReducer = combineReducers({
   userRegister: userRegisterReducer,
@@ -15,7 +14,7 @@ const rootReducer = combineReducers({
   allPassword: allPaswordReducer,
   editPassword: editPasswordReducer,
   userDetail: getUserReducer,
-  deletePassword: deletePasswordReducer,
+  updateUser: updateUserReducer,
 });
 
 export default rootReducer;

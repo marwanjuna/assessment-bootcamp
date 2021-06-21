@@ -7,7 +7,6 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import allPasswordAction from "../redux/password/allPasswordAction";
 import editNewPasswordAction from "../redux/password/editPasswordAction";
-import detailPasswordAction from "../redux/password/deletePasswordAction";
 
 const Home = () => {
   const userPasswordList = useSelector((state) => state.allPassword);
@@ -20,7 +19,6 @@ const Home = () => {
   }, []);
 
   const handleDeletePass = (passID) => {
-    dispatch(detailPasswordAction.fetchPassword(passID));
   };
 
   return (
@@ -51,21 +49,25 @@ const Home = () => {
               {userPasswordList.data &&
                 userPasswordList.data.map((data, index) => {
                   return (
-                    <tr>
-                      <td>{index + 1}</td>
-                      <td>{data.website}</td>
-                      <td>{data.password}</td>
-                      <td>{data.created_at}</td>
-                      <td>{data.updated_at}</td>
-                      <td>
-                        <Link to={`/password/edit/${data.id}`}>
-                          <span>Update</span>
-                        </Link>
-                      </td>
-                      <td>
-                        <span onClick={handleDeletePass}>Delete</span>
-                      </td>
-                    </tr>
+                    <tbody>
+                      <tr>
+                        <td>{index + 1}</td>
+                        <td>{data.website}</td>
+                        <td>{data.password}</td>
+                        <td>{data.created_at}</td>
+                        <td>{data.updated_at}</td>
+                        <td>
+                          <Link to={`/password/edit/${data.id}`}>
+                            <Button>Update</Button>
+                          </Link>
+                        </td>
+                        <td>
+                          <Button onClick={handleDeletePass(data.id)}>
+                            Delete
+                          </Button>
+                        </td>
+                      </tr>
+                    </tbody>
                   );
                 })}
             </Table>

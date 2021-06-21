@@ -42,7 +42,6 @@ const addPasswordReducer = (state = initState, action) => {
         ...state,
         isLoading: false,
       };
-
     default:
       return state;
   }
