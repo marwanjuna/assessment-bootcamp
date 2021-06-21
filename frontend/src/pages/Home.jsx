@@ -1,17 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button, Alert, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import userLoginAction from "../redux/user/login/userLoginAction";
 import { useHistory } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import allPasswordAction from "../redux/password/allPasswordAction";
 
 const Home = () => {
-  const userLoginData = useSelector((state) => state.userLogin);
+  const userPasswordList = useSelector((state) => state.allPassword);
   const dispatch = useDispatch();
   const history = useHistory();
+  const [userID, setUserID] = useState(localStorage.getItem("userID"));
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    dispatch(allPasswordAction.fetchAllPassword(userID));
+  }, []);
 
   return (
     <>
@@ -19,7 +23,13 @@ const Home = () => {
       <div className="container">
         <div className="row justify-content-center mt-5">
           <div className="col-sm">
-            <h2>Home Page</h2>
+            <div className="d-flex justify-content-between mb-5">
+              <h2>Home Page</h2>
+              <Button variant="primary" href="/password/add">
+                Add New Password
+              </Button>
+            </div>
+            <pre>{JSON.stringify(userPasswordList)}</pre>
             <Table striped bordered hover>
               <thead>
                 <tr>
@@ -31,16 +41,24 @@ const Home = () => {
                   <th>Action</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td>@mdo</td>
-                  <td>@mdo</td>
-                </tr>
-              </tbody>
+              {userPasswordList.data &&
+                userPasswordList.data.map((data, index) => {
+                  return (
+                    <tr>
+                      <td>{index + 1}</td>
+                      <td>{data.website}</td>
+                      <td>{data.password}</td>
+                      <td>{data.created_at}</td>
+                      <td>{data.updated_at}</td>
+                      <td>
+                        <Button variant="primary">Update</Button>
+                      </td>
+                      <td>
+                        <Button variant="danger">Delete</Button>
+                      </td>
+                    </tr>
+                  );
+                })}
             </Table>
           </div>
         </div>

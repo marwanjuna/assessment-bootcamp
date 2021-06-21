@@ -3,6 +3,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import styled from 'styled-components';
 import Home from './pages/Home';
+import AddPassword from './pages/AddPassword';
 
 function App() {
   const App = styled.div`
@@ -16,6 +17,7 @@ function App() {
         <Switch>
           <Route path="/register" exact component={Register} />
           <Route path="/login" exact component={Login} />
+          <Route path="/password/add" exact component={AddPassword} />
           <Route path="/" exact component={Home} />
         </Switch>
       </Router>

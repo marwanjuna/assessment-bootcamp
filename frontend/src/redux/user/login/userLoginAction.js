@@ -67,6 +67,9 @@ const login = (email, password, history) => async dispatch => {
     });
 
     const accessToken = user.data.token;
+    const userID = user.data.user_id;
+
+    localStorage.setItem("userID", userID);
     localStorage.setItem("accessToken", accessToken);
     console.log(user)
 
