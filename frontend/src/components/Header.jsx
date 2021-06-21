@@ -11,6 +11,8 @@ const Header = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
+  const [userID, setUserID] = useState(localStorage.getItem("userID"));
+  const [urlProfile, setUrlProfile] = useState("/profile/" + userID);
 
   useEffect(() => {
     setPageURL(location.pathname);
@@ -35,7 +37,7 @@ const Header = () => {
           <Nav>
             {authUser && (
               <>
-                <Nav.Link href="#" className="mr-5">
+                <Nav.Link href={urlProfile} className="mr-5">
                   Profile
                 </Nav.Link>
                 <Nav.Link className="mr-5" onClick={handleLogout}>

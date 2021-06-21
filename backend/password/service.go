@@ -13,6 +13,7 @@ type PasswordService interface {
 	CreateNewPassword(userID int, password entity.InputPassword) (entity.PasswordList, error)
 	GetPasswordByID(id string) (entity.PasswordList, error)
 	UpdatePasswordByID(id string, dataInput entity.InputPassword) (entity.PasswordList, error)
+	DeletePasswordByID(id string) (interface{}, error)
 }
 
 type passwordService struct {
@@ -92,4 +93,37 @@ func (s *passwordService) UpdatePasswordByID(id string, dataInput entity.InputPa
 	}
 
 	return passwordUpdated, nil
+}
+
+func (s *passwordService) DeletePasswordByID(id string) (interface{}, error) {
+	if err := helper.ValidateIDNumber(id); err != nil {
+		return nil, err
+	}
+
+	password, err := s.repository.GetOnePassword(id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if password.ID == 0 {
+		newError := fmt.Sprintf("password id %s is not found", id)
+		return nil, errors.New(newError)
+	}
+
+	status, err := s.repository.DeletePassword(id)
+
+	if err != nil {
+		panic(err)
+	}
+
+	if status == "error" {
+		return nil, errors.New("error delete in internal server")
+	}
+
+	msg := fmt.Sprintf("password id %s success deleted", id)
+
+	formatDelete := FormatDelete(msg)
+
+	return formatDelete, nil
 }

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Home from './pages/Home';
 import AddPassword from './pages/AddPassword';
 import EditPassword from './pages/EditPassword';
+import Profile from './pages/Profile';
 
 function App() {
   const App = styled.div`
@@ -20,6 +21,7 @@ function App() {
           <Route path="/login" exact component={Login} />
           <Route path="/password/add" exact component={AddPassword} />
           <Route path="/password/edit/:id" exact component={EditPassword} />
+          <Route path="/profile/:id" exact component={Profile} />
           <Route path="/" exact component={Home} />
         </Switch>
       </Router>

@@ -90,3 +90,30 @@ func (h *passwordHandler) UpdatePasswordByIDHandler(c *gin.Context) {
 
 	c.JSON(http.StatusOK, password)
 }
+
+func (h *passwordHandler) DeleteByPasswordIDHandler(c *gin.Context) {
+	id := c.Param("id")
+
+	password, _ := h.passwordService.GetPasswordByID(id)
+
+	idParam := int(password.UserID)
+
+	userData := int(c.MustGet("currentUser").(int))
+
+	if idParam != userData {
+		c.JSON(401, gin.H{
+			"error": "unauthorize user",
+		})
+		return
+	}
+
+	book, err := h.passwordService.DeletePasswordByID(id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, book)
+}
