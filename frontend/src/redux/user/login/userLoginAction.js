@@ -66,11 +66,12 @@ const login = (email, password, history) => async dispatch => {
       data: submitData,
     });
 
-    const accessToken = user.data.authorization;
+    const accessToken = user.data.token;
     localStorage.setItem("accessToken", accessToken);
+    console.log(user)
 
     dispatch(stopLoading());
-    history.push("/dashboard")
+    history.push("/")
   } catch (error) {
     console.log(error);
     dispatch(setErrorMessage(["The email/password is incorrect"] || ["internal server error"]));

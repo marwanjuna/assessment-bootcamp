@@ -14,6 +14,7 @@ func main() {
 	r.Use(handler.CorsMiddleware())
 
 	routes.UserRoute(r)
+	routes.PasswordRoute(r)
 
 	port := os.Getenv("PORT")
 	r.Run(":" + port)

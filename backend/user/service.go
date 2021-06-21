@@ -13,6 +13,7 @@ type UserService interface {
 	SaveNewUser(user entity.UserInput) (entity.User, error)
 	LoginUser(input entity.LoginUserInput) (entity.User, error)
 	UpdateUserByID(id string, dataInput entity.UpdateUserInput) (entity.User, error)
+	GetUserByID(id string) (entity.User, error)
 }
 
 type userService struct {
@@ -92,4 +93,23 @@ func (s *userService) UpdateUserByID(id string, dataInput entity.UpdateUserInput
 	}
 
 	return userUpdated, nil
+}
+
+func (s *userService) GetUserByID(id string) (entity.User, error) {
+	if err := helper.ValidateIDNumber(id); err != nil {
+		return entity.User{}, err
+	}
+
+	user, err := s.repository.GetOneUser(id)
+
+	if err != nil {
+		return entity.User{}, err
+	}
+
+	if user.ID == 0 {
+		newError := fmt.Sprintf("user id %s is not found", id)
+		return entity.User{}, errors.New(newError)
+	}
+
+	return user, nil
 }

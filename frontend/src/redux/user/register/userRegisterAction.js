@@ -78,7 +78,7 @@ const register = (name, address, email, password) => async dispatch => {
     dispatch(setSuccessMessage(""));
     dispatch(setErrorMessage(""));
     const submitData = {
-      name: name,
+      full_name: name,
       address: address,
       email: email,
       password: password,

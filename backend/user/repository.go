@@ -43,7 +43,7 @@ func (r *Repository) FindByEmail(email string) (entity.User, error) {
 func (r *Repository) GetOneUser(id string) (entity.User, error) {
 	var user entity.User
 
-	if err := r.db.Where("id = ?", id).Find(&user).Error; err != nil {
+	if err := r.db.Where("id = ?", id).Preload("PasswordList").Find(&user).Error; err != nil {
 		return user, err
 	}
 

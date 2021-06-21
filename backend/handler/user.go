@@ -101,3 +101,17 @@ func (h *userHandler) UpdateUserByIDHandler(c *gin.Context) {
 
 	c.JSON(http.StatusOK, user)
 }
+
+func (h *userHandler) ShowUserByIdHandler(c *gin.Context) {
+	id := c.Param("id")
+
+	user, err := h.userService.GetUserByID(id)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "input params error",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
+}
