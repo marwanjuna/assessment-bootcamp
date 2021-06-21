@@ -61,8 +61,8 @@ func (h *userHandler) LoginUserHandler(c *gin.Context) {
 	token, err := h.authService.GenerateToken(int(userData.ID))
 
 	if err != nil {
-		c.JSON(401, gin.H{
-			"error": "input data error",
+		c.JSON(500, gin.H{
+			"error": "internal server error",
 		})
 		return
 	}

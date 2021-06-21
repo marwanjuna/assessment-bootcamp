@@ -19,7 +19,6 @@ func Middleware(userService user.UserService, authService auth.Service) gin.Hand
 			return
 		}
 
-		// eksekusi code untuk mengecek apakah token itu valid dari server kita atau tidak
 		token, err := authService.ValidateToken(authHeader)
 
 		if err != nil {
